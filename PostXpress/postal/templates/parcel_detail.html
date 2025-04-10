@@ -1,0 +1,26 @@
+{% extends 'base.html' %}  <!-- Assuming you have a base template -->
+
+{% block content %}
+    <div class="container">
+        <h2>Parcel Details</h2>
+        <ul>
+			<!-- parcel_detail.html -->
+			<h2>Parcel Details</h2>
+			<p><strong>Tracking Number:</strong> {{ parcel.tracking_number }}</p>
+			<p><strong>Receiver Name:</strong> {{ parcel.receiver_name }}</p>
+			<p><strong>Receiver Phone:</strong> {{ parcel.receiver_phone }}</p>
+			<p><strong>Status:</strong> {{ parcel.status }}</p>
+			<p><strong>Origin Location:</strong> {{ parcel.origin_location }}</p>
+			<p><strong>Destination:</strong> {{ parcel.destination }}</p>
+			<p><strong>Parcel Type:</strong> {{ parcel.parcel_type.name }}</p>
+			<p><strong>Cost:</strong> {{ parcel.parcel_type.cost }}</p>
+			<p><strong>Served By:</strong> {{ parcel.served_by.username }}</p>
+			<p><strong>Created At:</strong> {{ parcel.created_at }}</p>
+			<p><strong>Updated At:</strong> {{ parcel.updated_at }}</p>
+
+			<!-- Link to make a payment -->
+			<a href="{% url 'make_payment' parcel.tracking_number %}">Proceed to Payment</a>
+
+        </ul>
+    </div>
+{% endblock %}

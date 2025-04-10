@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PostXpress</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <script src="{% static 'js/dashboard.js' %}" defer></script> <!-- Include JS -->
+	<style>
+        /* Container that takes the full width of the page */
+        div#content div.internal-mail-container {
+            display: flex !important;
+            justify-content: flex-end !important; /* Aligns the internal-mail to the far right */
+            /* width: 100% !important; Ensure it takes the full width of the page */
+            padding: 10px 20px !important;
+            background-color: #f0f4f8 !important; /* Match the theme */
+            margin-bottom: 20px !important;
+        }
+
+        /* Flex container for the icons */
+        div#content div.internal-mail {
+            display: flex !important; /* Ensure icons are aligned side by side */
+            gap: 20px !important; /* Space between the icons */
+            align-items: center !important; /* Center them vertically */
+            margin-left: auto !important;
+        }
+
+        /* Styling for Notification and Message Icons */
+        div#content a.notification-icon, a.message-icon {
+            color: #007BFF; !important; /* Red Color */
+            font-size: 1.2rem !important;
+            font-weight: bold !important;
+            text-decoration: none !important; /* Remove underline */
+            padding: 8px 16px !important;
+            border-radius: 5px !important;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease !important;
+        }
+
+        /* Hover effects for better interactivity */
+        div#content a.notification-icon:hover, a.message-icon:hover {
+            background-color: #d94040 !important; /* Darker Red */
+            color: white !important;
+            box-shadow: 0 4px 10px rgba(255, 76, 76, 0.4) !important;
+        }
+
+		/* Welcome Message Box Styling */
+		.welcome-message-box {
+			background-color: #ffffff; /* White background */
+			border-left: 5px solid #0056b3; /* Blue left border */
+			border-right: 5px solid #0056b3; /* Blue left border */
+			padding: 20px;
+			border-radius: 8px;
+			box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Light shadow */
+			color: #0056b3; /* Blue font color */
+			margin-bottom: 20px;
+			margin-left: 60px;
+			font-family: 'Poppins', sans-serif; /* Modern, clean font */
+			font-size: 1.1rem; /* Slightly larger font for readability */
+			line-height: 1.6; /* Good line spacing for readability */
+		}
+
+		.welcome-message-box a {
+			color: #FF4C4C; /* Red color for links */
+			text-decoration: none;
+			font-weight: bold;
+		}
+
+		.welcome-message-box a:hover {
+			text-decoration: underline;
+			color: #d94040; /* Darker red on hover */
+		}
+
+	</style>
+</head>
+<body>
+    <div class="wrapper">
+        <!-- Sidebar -->
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <h3>PostXpress</h3>
+                <button id="sidebarCollapse" class="toggle-btn">☰</button>
+            </div>
+            <ul class="list-unstyled components">
+                <li><a href="{% url 'register_parcel' %}">Register Parcel</a></li>
+                <li><a href="{% url 'parcel_tracking' %}">Track Parcel</a></li>
+				<li><a href="{% url 'update_parcel_status' %}">Update Parcel Status</a></li>				
+                <li><a href="{% url 'report_incident' %}">Report Incident</a></li>
+                <li><a href="{% url 'payment_history' %}">Financial Summary</a></li>
+                {% if user.is_staff %}
+                <li><a href="{% url 'staff_dashboard' %}">Staff</a></li>
+                <li><a href="{% url 'reports' %}">Processed Mails/Parcels</a></li>
+                <li><a>Contracts</a></li>
+                {% endif %}
+				<li>
+					<form method="post" action="{% url 'logout' %}" style="display:inline;">
+						{% csrf_token %}
+						<button type="submit" class="logout-btn">Logout</button>
+					</form>
+				</li>
+
+            </ul>
+        </nav>
+
+        <!-- Page Content -->
+        <div id="content">
+            <header>
+                <h1>Welcome to PostXpress</h1>
+            </header>
+			<div class="internal-mail-container">
+				<div class="internal-mail">
+					<a href="#" class="notification-icon">🔔 Notifications</a><br>
+					<a href="#" class="message-icon">📧 Mail</a>
+				</div>
+			</div>
+            <!-- Welcome Message -->
+            <div class="welcome-message-box">
+                <p>Hi {{ user.username }},<br>
+                Welcome to PostXpress. Navigate the menu on the left and choose the appropriate task you wish to execute.<br>
+                For any queries, clarifications, or errors contact the support team via: <br><a href="mailto:support@PostXpress.com">support@PostXpress.com</a> / <a href="mailto:admin@PostXpress.com">admin@PostXpress.com</a> / +254707098495 ext 8290.
+                </p>
+            </div>
+			<!-- HTML for displaying map using Leaflet.js -->
+			<div id="parcel-map" style="height: 400px; width: 100%;"></div>
+
+			<!-- Include Leaflet CSS and JavaScript -->
+			<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+			<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+			<script>
+				document.addEventListener("DOMContentLoaded", function () {
+					// Define default center on Kenya and zoom level
+					const kenyaCenter = [-1.286389, 36.817223];  // Latitude and Longitude of Nairobi
+					const map = L.map('parcel-map').setView(kenyaCenter, 7);
+
+					// Add the OpenStreetMap tiles
+					L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+						maxZoom: 19,
+						attribution: '© OpenStreetMap'
+					}).addTo(map);
+
+					// Add markers for major towns in Kenya
+					const towns = [
+						{ name: "Nairobi", coords: [-1.286389, 36.817223] },
+						{ name: "Mombasa", coords: [-4.043477, 39.668206] },
+						{ name: "Kisumu", coords: [-0.091702, 34.767957] },
+						{ name: "Nakuru", coords: [-0.303099, 36.080025] },
+						{ name: "Eldoret", coords: [0.514277, 35.269780] }
+					];
+
+					towns.forEach(town => {
+						L.marker(town.coords)
+							.addTo(map)
+							.bindPopup(`<b>${town.name}</b>`);
+					});
+
+					// Add the parcel marker if parcel location exists
+					{% if parcel.current_latitude and parcel.current_longitude %}
+						const parcelLocation = [{{ parcel.current_latitude }}, {{ parcel.current_longitude }}];
+						L.marker(parcelLocation)
+							.addTo(map)
+							.bindPopup("<b>Parcel Tracking Number: </b>{{ parcel.tracking_number }}")
+							.openPopup();
+
+						// Center map on parcel location
+						map.setView(parcelLocation, 8);
+					{% endif %}
+				});
+			</script>		
+            <div class="container">
+                <section class="dashboard-info">
+                    <h2>Quick Overview</h2>
+                    <div class="stats-grid">
+                        <div class="stat">
+                            <h3>Parcels Registered</h3>
+                            <p>250</p>
+                        </div>
+                        <div class="stat">
+                            <h3>Parcels in Transit</h3>
+                            <p>120</p>
+                        </div>
+                        <div class="stat">
+                            <h3>Delivered Parcels</h3>
+                            <p>100</p>
+                        </div>
+                        <div class="stat">
+                            <h3>Pending Payments</h3>
+                            <p>5</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="parcel-tracking">
+                    <h2>Track Your Parcel</h2>
+                    <form method="post" action="{% url 'parcel_tracking' %}">
+                        {% csrf_token %}
+                        <input type="text" name="tracking_number" placeholder="Enter Tracking Number" required>
+                        <button type="submit">Track</button>
+                    </form>
+                </section>
+
+                <section class="notifications">
+                    <h2>Notifications</h2>
+                    <ul class="notification-list">
+                        <li><span class="alert">Parcel #12345 is out for delivery!</span></li>
+                        <li><span class="info">Payment received for Parcel #54321.</span></li>
+                        <li><span class="error">Parcel #98765 failed to be delivered. Please contact support.</span></li>
+                    </ul>
+                </section>
+
+                {% if user.is_staff %}
+                <section class="staff-actions">
+                    <h2>Staff Quick Actions</h2>
+                    <div class="quick-links">
+                        <a href="{% url 'register_parcel' %}" class="btn">Register New Parcel</a>
+                        <a href="{% url 'reports' %}" class="btn">Processed mails/parcels</a>
+                        <a href="{% url 'staff_incident_report' %}" class="btn">Incident Reports</a>
+                    </div>
+                </section>
+                {% endif %}
+            </div>
+
+            <footer>
+                <p>&copy; 2024 PostXpress - All rights reserved</p>
+            </footer>
+        </div>
+    </div>
+</body>
+</html>

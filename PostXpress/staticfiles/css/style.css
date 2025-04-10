@@ -1,0 +1,550 @@
+/* General Body Styling */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f0f4f8; /* Light blue-gray background */
+    color: #333333;
+    margin: 0;
+    padding: 0;
+}
+
+/* Header Styling */
+header {
+    background-color: #0056b3; /* Dark Blue */
+    color: white;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+    font-size: 2.5rem;
+    margin: 0;
+}
+
+/* Navigation Menu */
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+nav ul li {
+    display: inline;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+nav ul li a:hover {
+    background-color: #FF4C4C; /* Accent Red */
+}
+
+/* Container Styling */
+.container {
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 30px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Section Styling */
+section {
+    margin-bottom: 40px;
+}
+
+h2 {
+    color: #0056b3; /* Primary Blue */
+    font-size: 2rem;
+    border-bottom: 3px solid #FF4C4C; /* Red Underline */
+    padding-bottom: 10px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+/* Stats Grid */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.stat {
+    background-color: #007BFF; /* Blue */
+    color: white;
+    padding: 20px;
+    text-align: center;
+    border-radius: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stat:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0, 123, 255, 0.4);
+}
+
+.stat h3 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.stat p {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+/* Parcel Tracking Section */
+.parcel-tracking form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.parcel-tracking input {
+    width: 100%;
+    max-width: 400px;
+    padding: 12px;
+    border: 2px solid #007BFF;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    transition: border-color 0.3s ease;
+}
+
+.parcel-tracking input:focus {
+    border-color: #0056b3; /* Darker Blue on focus */
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.parcel-tracking button {
+    background-color: #FF4C4C; /* Red Button */
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    width: 100%;
+    max-width: 200px;
+}
+
+.parcel-tracking button:hover {
+    background-color: #d94040; /* Darker Red */
+    box-shadow: 0 6px 15px rgba(255, 76, 76, 0.4);
+}
+
+/* Notification List */
+.notification-list {
+    list-style: none;
+    padding: 0;
+}
+
+.notification-list li {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-left: 5px solid #FF4C4C; /* Red Accent */
+    margin-bottom: 10px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+.notification-list li span {
+    font-weight: bold;
+}
+
+.notification-list .alert {
+    color: #FF4C4C; /* Red for alert */
+}
+
+.notification-list .info {
+    color: #007BFF; /* Blue for info */
+}
+
+.notification-list .error {
+    color: #FF4C4C; /* Red for errors */
+}
+
+/* Staff Quick Actions */
+.staff-actions .quick-links {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.staff-actions .btn {
+    background-color: #007BFF; /* Blue Button */
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.staff-actions .btn:hover {
+    background-color: #0056b3;
+    box-shadow: 0 6px 15px rgba(0, 123, 255, 0.4);
+}
+
+/* Footer */
+footer {
+    background-color: #0056b3; /* Dark Blue */
+    color: white;
+    padding: 20px;
+    text-align: center;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+footer p {
+    margin: 0;
+}
+
+footer a {
+    color: #FF4C4C; /* Red Links */
+    font-weight: bold;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    nav ul {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    button, .btn {
+        font-size: 1rem;
+    }
+
+    h2 {
+        font-size: 1.8rem;
+    }
+    #sidebar {
+        width: 60px;
+    }
+
+    #content {
+        margin-left: 60px;
+        width: calc(100% - 60px);
+    }
+}
+/* About Section */
+.about-us {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.about-us p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* Our Services Section */
+.our-services {
+    margin-bottom: 40px;
+}
+
+/* Real-Time Stats Section */
+.real-time-stats {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.real-time-stats .stat p {
+    font-size: 2.5rem;
+    color: #FF4C4C; /* Red for impact */
+}
+
+/* Testimonials Section */
+.testimonials {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.testimonial-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.testimonial {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.testimonial p {
+    font-size: 1.1rem;
+    color: #333;
+}
+
+.testimonial span {
+    display: block;
+    margin-top: 15px;
+    font-weight: bold;
+    color: #007BFF;
+}
+
+/* CTA Section */
+.cta {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.cta .btn {
+    background-color: #FF4C4C;
+    padding: 12px 30px;
+    color: white;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.2rem;
+    border-radius: 5px;
+}
+
+.cta .btn:hover {
+    background-color: #d94040;
+}
+
+/* Footer */
+footer {
+    background-color: #0056b3;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+footer nav a {
+    color: #FF4C4C;
+    margin: 0 10px;
+    text-decoration: none;
+}
+
+footer nav a:hover {
+    text-decoration: underline;
+}
+
+/* Sidebar Styling */
+#sidebar {
+    background: #0056b3; /* Dark Blue */
+    color: white;
+    width: 250px;
+    height: 100vh; /* Full viewport height */
+    position: fixed;
+    left: 0;
+    top: 0;
+    transition: all 0.3s ease-in-out;
+    z-index: 1000; /* Ensure the sidebar is always on top */
+}
+
+#sidebar .sidebar-header {
+    padding: 20px;
+    background: #004494; /* Slightly darker blue */
+    text-align: center;
+    position: relative;
+}
+
+#sidebar.active .sidebar-header h3 {
+    opacity: 0;
+    visibility: hidden; /* Hide the full title in collapsed mode */
+}
+
+#sidebar .sidebar-header h3 {
+    margin: 0;
+    color: white; /* Ensure this is white for contrast */
+    font-size: 1.5rem; /* Adjusted size */
+    visibility: visible;
+    opacity: 1;
+    transition: all 0.3s;
+}
+
+/* Sidebar Links */
+#sidebar ul.components {
+    padding: 20px 0;
+    list-style: none;
+    margin: 0;
+    display: block;
+}
+
+#sidebar.active ul li a::before {
+    font-size: 1.5rem;
+}
+
+#sidebar ul li {
+    padding: 10px 0;
+}
+
+
+#sidebar ul li a {
+    padding: 15px;
+    font-size: 1.1rem;
+    color: #ffffff; /* Keep the font color white */
+    display: block;
+    text-decoration: none;
+    transition: background 0.3s ease, color 0.3s ease;
+    white-space: nowrap;
+}
+
+#sidebar ul li a:hover {
+    background: #FF4C4C; /* Red for hover */
+    color: white; /* Maintain white text on hover */
+}
+
+#sidebar.active ul li a {
+    text-align: center;
+    font-size: 0; /* Hide text in collapsed state */
+}
+
+/* Sidebar Toggle Button */
+.toggle-btn {
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    position: absolute;
+    top: 15px;
+    right: -35px; /* Adjust this to ensure button is visible even when collapsed */
+    width: 30px;
+    height: 30px;
+    background-color: #0056b3;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 30px;
+}
+
+#sidebar.active {
+    /*margin-left: -60px;*/ /* Collapses the sidebar */
+	width: 60px; /
+}
+
+/* When the sidebar is collapsed, the content should stretch */
+#content.active {
+    margin-left: 60px;
+    width: calc(100% - 60px); /* Adjust width when sidebar is collapsed */
+}
+
+#content {
+    width: calc(100% - 250px);
+    margin-left: 250px;
+    transition: all 0.3s;
+    padding: 20px;
+}
+
+/* Form Styling */
+.container {
+    max-width: 600px;
+    margin: 50px auto;
+    background-color: white; /* White background for the form */
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Form Title */
+h2 {
+    text-align: center;
+    color: #0056b3; /* Primary Blue */
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+/* Form Input Styling */
+form input[type="text"], 
+form input[type="email"], 
+form input[type="password"], 
+form textarea, 
+form select {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #007BFF; /* Accent Blue */
+    border-radius: 8px;
+    margin-bottom: 20px;
+    transition: border-color 0.3s ease;
+    background-color: #f9f9f9;
+}
+
+form input:focus, 
+form textarea:focus, 
+form select:focus {
+    border-color: #0056b3; /* Dark Blue on focus */
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Form Labels */
+label {
+    font-weight: bold;
+    color: #0056b3; /* Primary Blue */
+    margin-bottom: 8px;
+    display: block;
+}
+
+/* Submit Button */
+button, .btn-primary {
+    background-color: #007BFF; /* Accent Blue */
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    border-radius: 8px;
+    width: 100%;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+button:hover, 
+.btn-primary:hover {
+    background-color: #0056b3; /* Dark Blue */
+    box-shadow: 0 6px 15px rgba(0, 123, 255, 0.4);
+}
+
+/* Placeholder Styling */
+::placeholder {
+    color: #888;
+    font-style: italic;
+}
+
+/* Error Styling */
+.form-group .errorlist {
+    color: #FF4C4C; /* Red for errors */
+    font-weight: bold;
+}
+
+.form-group .errorlist li {
+    margin-bottom: 10px;
+}
+
+form input.error, 
+form textarea.error, 
+form select.error {
+    border-color: #FF4C4C; /* Red for error fields */
+    box-shadow: 0 0 5px rgba(255, 76, 76, 0.5);
+}

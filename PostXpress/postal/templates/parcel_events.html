@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Parcel Events for {{ parcel.tracking_number }}
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Parcel Events for {{ parcel.tracking_number }}</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Event Type</th>
+                <th>Timestamp</th>
+                <th>Updated By</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for event in events %}
+                <tr>
+                    <td>{{ event.event_type }}</td>
+                    <td>{{ event.timestamp }}</td>
+                    <td>{{ event.updated_by }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,509 @@
+1. python manage.py runserver						# Run Server
+2. python manage.py create_default_groups			# Create default user groups
+3. python manage.py migrate
+
+sudo dnf update && sudo dnf upgrade -y
+
+scp -o StrictHostKeyChecking=no -i C:\Users\dell\OneDrive\Projects\Aviator\Oracle\keys_4\Private\ssh-key-2024-09-30.pem C:\Users\dell\OneDrive\Projects\PostXpress.rar opc@129.151.178.72:/home/opc/
+
+python3.10 -m venv molenv
+
+unrar x PostXpress.rar
+
+#In Windows
+pip freeze > requirements.txt
+
+mv ~/requirements.txt ~/PostXpress/PostXpress/PostXpress
+
+sudo dnf install sqlite sqlite-devel
+sudo dnf groupinstall "Development Tools"
+sudo dnf install openssl-devel bzip2-devel libffi-devel zlib-devel
+
+cd /usr/src
+sudo wget https://www.python.org/ftp/python/3.10.11/Python-3.10.11.tgz
+sudo tar xzf Python-3.10.11.tgz
+cd Python-3.10.11
+
+
+./configure --enable-optimizations --with-ensurepip=install --with-sqlite
+
+sudo make altinstall
+
+python3.10 -m sqlite3
+
+python manage.py collectstatic
+
+
+wget https://www.sqlite.org/2024/sqlite-autoconf-3430200.tar.gz
+
+wget https://www.sqlite.org/2023/sqlite-autoconf-3430200.tar.gz
+
+
+sudo wget https://www.sqlite.org/2023/sqlite-autoconf-3430200.tar.gz -P /tmp
+
+cd /tmp  # Go to the folder where you downloaded the tar.gz file
+tar -xvf sqlite-autoconf-3430200.tar.gz  # Extract the tarball
+cd sqlite-autoconf-3430200  # Enter the extracted directory
+sudo ./configure  # Configure the build
+sudo make  # Compile the SQLite binary
+sudo make install  # Install SQLite
+
+sqlite3 --version
+
+which sqlite3
+
+pip uninstall pysqlite3
+
+export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+export C_INCLUDE_PATH=/usr/local/include
+export LIBRARY_PATH=/usr/local/lib
+pip install --no-binary :all: pysqlite3
+
+python manage.py runserver 0.0.0.0:8000
+
+sudo firewall-cmd --permanent --add-port=8000/tcp
+sudo firewall-cmd --reload
+
+
+http://129.151.178.72:8000
+
+sudo firewall-cmd --add-port=8000/tcp --permanent
+sudo firewall-cmd --reload
+
+ping 129.151.178.72
+
+
+--------------EXECUTE--------------------
+export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+export C_INCLUDE_PATH=/usr/local/include
+export LIBRARY_PATH=/usr/local/lib
+pip install --no-binary :all: pysqlite3
+nohup python manage.py runserver 0.0.0.0:8000 &
+
+
+export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+export C_INCLUDE_PATH=/usr/local/include
+export LIBRARY_PATH=/usr/local/lib
+pip install --no-binary :all: pysqlite3
+python manage.py runserver 0.0.0.0:8000
+
+tail -f nohup.out
+
+
+export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+export C_INCLUDE_PATH=/usr/local/include
+export LIBRARY_PATH=/usr/local/lib
+pip install --no-binary :all: pysqlite3
+python manage.py makemigrations
+python manage.py migrate
+
+
+python manage.py createsuperuser			# Create admin user
+
+# Admin
+user name: chiringa
+Password: Godlovesyou2!
+
+scp -o StrictHostKeyChecking=no -i C:\Users\dell\OneDrive\Projects\Aviator\Oracle\keys_4\Private\ssh-key-2024-09-30.pem C:\Users\dell\OneDrive\Projects\PostXpress\PostXpress\postal\templates\make_payment.html opc@129.151.178.72:/home/opc/PostXpress/PostXpress/postal/templates/
+
+scp -o StrictHostKeyChecking=no -i C:\Users\dell\OneDrive\Projects\Aviator\Oracle\keys_4\Private\ssh-key-2024-09-30.pem C:\Users\dell\OneDrive\Projects\PostXpress\PostXpress\postal\payments.py opc@129.151.178.72:/home/opc/PostXpress/PostXpress/postal/
+
+scp -o StrictHostKeyChecking=no -i C:\Users\dell\OneDrive\Projects\Aviator\Oracle\keys_4\Private\ssh-key-2024-09-30.pem opc@129.151.178.72:/home/opc/PostXpress/PostXpress/postal/views.py C:\Users\dell\Downloads\
+
+scp -o StrictHostKeyChecking=no -i C:\Users\dell\OneDrive\Projects\Aviator\Oracle\keys_4\Private\ssh-key-2024-09-30.pem C:\Users\dell\OneDrive\Projects\PostXpress\PostXpress\PostXpress\settings.py opc@129.151.178.72:/home/opc/PostXpress/PostXpress/PostXpress/
+
+scp -o StrictHostKeyChecking=no -i C:\Users\dell\OneDrive\Projects\Aviator\Oracle\keys_4\Private\ssh-key-2024-09-30.pem C:\Users\dell\OneDrive\Projects\PostXpress\PostXpress\postal\views.py opc@129.151.178.72:/home/opc/PostXpress/PostXpress/postal/
+
+scp -o StrictHostKeyChecking=no -i C:\Users\dell\OneDrive\Projects\Aviator\Oracle\keys_4\Private\ssh-key-2024-09-30.pem opc@129.151.178.72:/home/opc/PostXpress/PostXpress/postal/models.py C:\Users\dell\Downloads\
+
+scp -o StrictHostKeyChecking=no -i C:\Users\dell\OneDrive\Projects\Aviator\Oracle\keys_4\Private\ssh-key-2024-09-30.pem opc@129.151.178.72:/home/opc/PostXpress/PostXpress/postal/utils.py C:\Users\dell\Downloads\
+
+scp -o StrictHostKeyChecking=no -i C:\Users\dell\OneDrive\Projects\Aviator\Oracle\keys_4\Private\ssh-key-2024-09-30.pem C:\Users\dell\OneDrive\Projects\PostXpress\PostXpress\postal\utils.py opc@129.151.178.72:/home/opc/PostXpress/PostXpress/postal/
+
+scp -o StrictHostKeyChecking=no -i C:\Users\dell\OneDrive\Projects\Aviator\Oracle\keys_4\Private\ssh-key-2024-09-30.pem C:\Users\dell\OneDrive\Projects\PostXpress\PostXpress\postal\models.py opc@129.151.178.72:/home/opc/PostXpress/PostXpress/postal/
+
+
+export AFRICASTALKING_USERNAME="sandbox"
+export AFRICASTALKING_API_KEY="atsk_0793c22916f72f39023a061e76b21c640a607c265f684c817874739cce4e4df2b0ef457c"
+
+python manage.py makemigrations
+python manage.py migrate
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------TWILIO-------------------------------------
+Twilio recovery code: BC3UB37N6WZBKTBRDL8RWQPQ
+
+Account SID
+AC10c3758d8f67bac44ed9d1132d48bb2f
+
+Phone number: +1 252 888 6639
+
+
+
+-----------------------------AFRICA IS TALKING---------------------------
+API: atsk_dd8ff0a897084acddd3bb00f754fc52eac51e555f950e3ab2739be19d5484d001e1ca638
+
+ps aux | grep manage.py
+
+export AFRICASTALKING_USERNAME="sandbox"
+export AFRICASTALKING_API_KEY="atsk_0793c22916f72f39023a061e76b21c640a607c265f684c817874739cce4e4df2b0ef457c"
+python app.py runserver 0.0.0.0:8000
+
+sudo lsof -i :5000
+
+sudo lsof -i :8000
+
+PostXpress/
+├──	env/
+├──	PostXpress/
+│	├── postal/
+│	│	├── management/
+│	│	├── migrations/
+│	│	├── static/
+│	│	├── templates/
+│	│	│	├── registration/
+│	│	│	│	├── login.html
+│	│	│	│	└── signup.html
+│	│	│	├── base.html
+│	│	│	├── contact.html
+│	│	│	├── customer_dashboard.html
+│	│	│	├── dashboard.html
+│	│	│	├── faq.html
+│	│	│	├── front.html
+│	│	│	├── home.html
+│	│	│	├── incident_report.html
+│	│	│	└── ... (other html pages)
+│	│	├── __pycache__/
+│	│	├── admin.py
+│	│	├── app.py
+│	│	├── apps.py
+│	│	├── forms.py
+│	│	├── models.py
+│	│	├── payments.py
+│	│	├── send_sms.py
+│	│	├── serializers.py
+│	│	├── tests.py
+│	│	├── urls.py
+│	│	├── utils.py
+│	│	├── views.py
+│	│	├── __init__.py
+│	├──	PostXpress/
+│	│	├── __pycache__/
+│	│	├── __init__.py
+│	│	├── asgi.py
+│	│	├── settings.py
+│	│	├── urls.py
+│	│	└── wsgi.py
+│	├──	db.sqlite3
+│	├──	manage.py
+│	└── requirements.txt
+└── Batch_Instructions.txt
+
+# WINDOWS
+set AFRICASTALKING_USERNAME="sandbox"
+set AFRICASTALKING_API_KEY="atsk_0793c22916f72f39023a061e76b21c640a607c265f684c817874739cce4e4df2b0ef457c"
+python manage.py makemigrations
+python manage.py migrate
+
+
+# ORACLE LINUX
+export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+export C_INCLUDE_PATH=/usr/local/include
+export LIBRARY_PATH=/usr/local/lib
+pip install --no-binary :all: pysqlite3
+export AFRICASTALKING_USERNAME="sandbox"
+export AFRICASTALKING_API_KEY="atsk_0793c22916f72f39023a061e76b21c640a607c265f684c817874739cce4e4df2b0ef457c"
+python manage.py makemigrations
+python manage.py migrate
+python manage.py runserver 0.0.0.0:8000
+
+nohup python manage.py runserver 0.0.0.0:8000 &
+tail -f nohup.out
+
+scp -o StrictHostKeyChecking=no -i C:\Users\dell\OneDrive\Projects\Aviator\Oracle\keys_4\Private\ssh-key-2024-09-30.pem opc@129.151.178.72:/home/opc/PostXpress/PostXpress/postal/templates/dashboard.html C:\Users\dell\Downloads\
+
+#db
+sqlite3 db.sqlite3
+.tables
+.schema table_name
+
+export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+export C_INCLUDE_PATH=/usr/local/include
+export LIBRARY_PATH=/usr/local/lib
+pip install --no-binary :all: pysqlite3
+export AFRICASTALKING_USERNAME="sandbox"
+export AFRICASTALKING_API_KEY="atsk_0793c22916f72f39023a061e76b21c640a607c265f684c817874739cce4e4df2b0ef457c"
+nohup python manage.py runserver 0.0.0.0:8000 &
+
+-------------------------------------------------------------------------------------------------------------------------
+# IMPORT csv file
+-----------------------------------------------------
+mkdir -p postal/management/commands
+touch postal/management/commands/import_stations.py
+
+export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+export C_INCLUDE_PATH=/usr/local/include
+export LIBRARY_PATH=/usr/local/lib
+pip install --no-binary :all: pysqlite3
+python manage.py import_stations_2
+
+# CLEAR TABE IN SQLite db
+-----------------------------------------------------
+python manage.py shell
+
+from postal.models import Parcel
+Parcel.objects.all().delete()
+
+python manage.py showmigrations
+python manage.py migrate postal zero --fake
+
+rm db.sqlite3
+python manage.py migrate
+python manage.py createsuperuser
+
+-----------------------------------------------------
+curl -X GET 'https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials' \
+-u 'fpe6F7erWAsWay6KJ6q7zu3Qui02I82TPALhG81QUqiELSkB:By7y1OTe2zjCrkN7Qt5DxO1RwvP6vX2Cmxi4vrzbD2bBhn8HHR2ytwfsYwRZgmid'
+
+
+curl -X POST 'https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest' \
+-H 'Authorization: Bearer yLYfOtk4iTSEUry3xxPoyLiff3A4' \
+-H 'Content-Type: application/json' \
+-d '{
+  "BusinessShortCode": "174379",
+  "Password": "MTc0Mzc5YmZiMjc5ZjlhYTliZGJjZjE1OGU5N2RkNzFhNDY3Y2QyYjZjMjBiMDUzY2NlN2UwMGU1MDg4OTJjN2I3NTMzNjIwMjQxMDE3MTEyMjM0",
+  "Timestamp": timestamp,
+  "TransactionType": "CustomerPayBillOnline",
+  "Amount": "10",
+  "PartyA": "254707098495",
+  "PartyB": "174379",
+  "PhoneNumber": "254707098495",
+  "CallBackURL": "http://129.151.178.72:8000/mpesa-callback/",
+  "AccountReference": "PostXpress",
+  "TransactionDesc": "Parcel Payment"
+}'
+
+# Generate the access token
+access_token=$(curl -s -X GET 'https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials' \
+    -u 'fpe6F7erWAsWay6KJ6q7zu3Qui02I82TPALhG81QUqiELSkB:By7y1OTe2zjCrkN7Qt5DxO1RwvP6vX2Cmxi4vrzbD2bBhn8HHR2ytwfsYwRZgmid' | jq -r '.access_token')
+
+# Make the STK Push request using the freshly obtained access token
+curl -X POST 'https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest' \
+-H "Authorization: Bearer $access_token" \
+-H 'Content-Type: application/json' \
+-d '{
+  "BusinessShortCode": "174379",
+  "Password": "MTc0Mzc5YmZiMjc5ZjlhYTliZGJjZjE1OGU5N2RkNzFhNDY3Y2QyYjZjMjBiMDUzY2NlN2UwMGU1MDg4OTJjN2I3NTMzNjIwMjQxMDE3MTE0MzIw",
+  "Timestamp": timestamp,
+  "TransactionType": "CustomerPayBillOnline",
+  "Amount": "10",
+  "PartyA": "254707098495",
+  "PartyB": "174379",
+  "PhoneNumber": "254707098495",
+  "CallBackURL": "http://129.151.178.72:8000/mpesa-callback/",
+  "AccountReference": "PostXpress",
+  "TransactionDesc": "Parcel Payment"
+}'
+
+
+access_token=$(curl -s -X GET 'https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials' \
+    -u 'fpe6F7erWAsWay6KJ6q7zu3Qui02I82TPALhG81QUqiELSkB:By7y1OTe2zjCrkN7Qt5DxO1RwvP6vX2Cmxi4vrzbD2bBhn8HHR2ytwfsYwRZgmid' | jq -r '.access_token')
+
+curl -X POST 'https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest' \
+-H "Authorization: Bearer $access_token" \
+-H 'Content-Type: application/json' \
+-d '{
+    "BusinessShortCode": "174379",
+    "Password": "MTc0Mzc5YmZiMjc5ZjlhYTliZGJjZjE1OGU5N2RkNzFhNDY3Y2QyYjZjMjBiMDUzY2NlN2UwMGU1MDg4OTJjN2I3NTMzNjIwMjQxMDE3MTE0MzIw",
+    "Timestamp": "20241017115120",
+    "TransactionType": "CustomerPayBillOnline",
+    "Amount": 10,
+    "PartyA": "254707098495",
+    "PartyB": "174379",
+    "PhoneNumber": "254707098495",
+    "CallBackURL": "http://129.151.178.72:8000/mpesa-callback/",
+    "AccountReference": "PostXpress",
+    "TransactionDesc": "Parcel Payment"
+}'
+
+
+access_token=$(curl -s -X GET 'https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials' \
+    -u 'fpe6F7erWAsWay6KJ6q7zu3Qui02I82TPALhG81QUqiELSkB:By7y1OTe2zjCrkN7Qt5DxO1RwvP6vX2Cmxi4vrzbD2bBhn8HHR2ytwfsYwRZgmid' | jq -r '.access_token')
+
+
+access_token=$(curl -s -X GET 'https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials' \
+    -u 'fpe6F7erWAsWay6KJ6q7zu3Qui02I82TPALhG81QUqiELSkB:By7y1OTe2zjCrkN7Qt5DxO1RwvP6vX2Cmxi4vrzbD2bBhn8HHR2ytwfsYwRZgmid' | jq -r '.access_token')
+
+curl -X POST 'https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest' \
+-H "Authorization: Bearer $access_token" \
+-H 'Content-Type: application/json' \
+-d '{
+    "BusinessShortCode": "174379",
+    "Password": "MTc0Mzc5YmZiMjc5ZjlhYTliZGJjZjE1OGU5N2RkNzFhNDY3Y2QyYjZjMjBiMDUzY2NlN2UwMGU1MDg4OTJjN2I3NTMzNjIwMjQxMDE3MTIxMjEy",
+    "Timestamp": "20241017121320",
+    "TransactionType": "CustomerPayBillOnline",
+    "Amount": 10,
+    "PartyA": "254707098495",
+    "PartyB": "174379",
+    "PhoneNumber": "254707098495",
+    "CallBackURL": "http://129.151.178.72:8000/mpesa-callback/",
+    "AccountReference": "PostXpress",
+    "TransactionDesc": "Parcel Payment"
+}'
+-----------------------------------------------------
+
+AFRICASTALKING_API_KEY = 'atsk_7da7f424b007453b777b0153ebaf57c330ae5cb02baa965db402733d033511bb0daeb53c'
+
+export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+export C_INCLUDE_PATH=/usr/local/include
+export LIBRARY_PATH=/usr/local/lib
+pip install --no-binary :all: pysqlite3
+export AFRICASTALKING_USERNAME="sandbox"
+export AFRICASTALKING_API_KEY="atsk_7da7f424b007453b777b0153ebaf57c330ae5cb02baa965db402733d033511bb0daeb53c"
+nohup python manage.py runserver 0.0.0.0:8000 &
+
+export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+export C_INCLUDE_PATH=/usr/local/include
+export LIBRARY_PATH=/usr/local/lib
+pip install --no-binary :all: pysqlite3
+export AFRICASTALKING_USERNAME="sandbox"
+export AFRICASTALKING_API_KEY="atsk_7da7f424b007453b777b0153ebaf57c330ae5cb02baa965db402733d033511bb0daeb53c"
+python manage.py runserver 0.0.0.0:8000
+
+export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+export C_INCLUDE_PATH=/usr/local/include
+export LIBRARY_PATH=/usr/local/lib
+pip install --no-binary :all: pysqlite3
+export AFRICASTALKING_USERNAME="sandbox"
+export AFRICASTALKING_API_KEY="atsk_7da7f424b007453b777b0153ebaf57c330ae5cb02baa965db402733d033511bb0daeb53c"
+python manage.py makemigrations
+python manage.py migrate
+
+
+# ASSIGN VEHICLE AND JOBS RANDOMLY
+------------------------------------------------------------------------
+export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+export C_INCLUDE_PATH=/usr/local/include
+export LIBRARY_PATH=/usr/local/lib
+pip install --no-binary :all: pysqlite3
+export AFRICASTALKING_USERNAME="sandbox"
+export AFRICASTALKING_API_KEY="atsk_7da7f424b007453b777b0153ebaf57c330ae5cb02baa965db402733d033511bb0daeb53c"
+python manage.py assign_vehicle_job
+
+
+# POPULATE STATION COORDINATES TO DB.
+------------------------------------------------------------------------
+export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+export C_INCLUDE_PATH=/usr/local/include
+export LIBRARY_PATH=/usr/local/lib
+pip install --no-binary :all: pysqlite3
+export AFRICASTALKING_USERNAME="sandbox"
+export AFRICASTALKING_API_KEY="atsk_7da7f424b007453b777b0153ebaf57c330ae5cb02baa965db402733d033511bb0daeb53c"
+python manage.py populate_station_coordinates
+
+
+# MANUALLY TRIGGER API TO UPDATE PARCEL STATUS
+------------------------------------------------------------------------
+curl -X POST -d "tracking_number=PXE336A9F6D" http://127.0.0.1:8000/scan_qr_code/
+
+sudo lsof -i :8000
+
+
+
+# INSTALL NGROK IN ORACLE LINUX VM instanceof
+------------------------------------------------------------------------------------
+wget https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-stable-linux-amd64.zip
+unzip ngrok-stable-linux-amd64.zip
+
+Auth token: 2iHAkA3Z9B96h508vDwr3Yd9Stt_356jtchhQLiMibpemJHYa
+
+ngrok authtoken YOUR_AUTHTOKEN_HERE
+ngrok authtoken 2iHAkA3Z9B96h508vDwr3Yd9Stt_356jtchhQLiMibpemJHYa
+
+curl -X POST -d "tracking_number=PX9409591D3" http://127.0.0.1:8000/scan_qr_code/
+curl -X POST -d "tracking_number=PX9409591D3" http://7a6e-129-151-178-72.ngrok-free.app/scan_qr_code/
+
+curl -X POST -d "tracking_number=PX9409591D3" http://129.151.178.72:8000/scan_qr_code/
+
+sudo npm install -g localtunnel
+npm install -g localtunnel
+sudo npm install -g n
+lt --port 8000
+
+https://silly-radios-nail.loca.lt
+
+curl -X POST -d "tracking_number=PX7479C95ED" https://silly-radios-nail.loca.lt/scan_qr_code/
+
+tail -f nohup.out
+
+curl -X POST -d "tracking_number=PX440B982DD" https://sweet-bats-shake.loca.lt/scan_qr_code/
+
+python manage.py show_urls | grep scan_qr_code
+
+
+unrar x audio.rar
+
+lIST BY REGION in stations
+
+
+--------------
+# compress folders in Linux os
+tar -czvf PostXpress_bckp.tar.gz .
+
+
+----------------------------------------------------------------------------------------
+set LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+set C_INCLUDE_PATH=/usr/local/include
+set LIBRARY_PATH=/usr/local/lib
+pip install --no-binary :all: pysqlite3
+
+set AFRICASTALKING_USERNAME="sandbox"
+set AFRICASTALKING_API_KEY="atsk_0793c22916f72f39023a061e76b21c640a607c265f684c817874739cce4e4df2b0ef457c"
+python manage.py runserver 0.0.0.0:8000
+----------------------------------------------------------------------------------------
+
+
+pip freeze > requirements.txt
+
+python manage.py makemigrations
+python manage.py migrate
+
+------------------------------------------------------------------------------------------
+SQLite DATABASE access
+
+python manage.py shell
+
+from postal.models import Parcel
+
+# Get all parcels
+parcels = Parcel.objects.all()
+
+for parcel in parcels:
+    print(parcel.tracking_number, parcel.status)
+
+from postal.models import Parcel
+
+# Filter for the specific parcel with tracking_number 'PX56F5E2362'
+parcel = Parcel.objects.filter(tracking_number='PX56F5E2362').values('tracking_number', 'status', 'current_latitude', 'current_longitude')
+
+# Print the parcel's details if it exists
+if parcel.exists():
+    print(parcel[0])  # Print the first matching result
+else:
+    print("No parcel found with tracking number PX56F5E2362")
+
+----------------------------------------------------------------------------------------------------------
+Pythonanywhere	
+unrar x PostXpress.rar
+
+# In local PC, Rereate the requirements.txt file
+pip freeze > requirements.txt
+
+# Create environment
+python -m venv venv
+
+# Ativate environment
+source venv/bin/activate
+
+# Install required packages
+pip install -r requirements.txt

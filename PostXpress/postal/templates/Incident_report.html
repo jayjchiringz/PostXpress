@@ -1,0 +1,19 @@
+<!-- postal/templates/incident_report.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	{% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <title>Incident Report</title>
+</head>
+<body>
+    <h1>Incident Report</h1>
+    <form method="post">
+        {% csrf_token %}
+        <textarea name="incident_details" placeholder="Describe the issue"></textarea>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>

@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Staff Dashboard{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Staff Dashboard</h2>
+    
+    <!-- Parcels Processed by Staff -->
+    <section class="mt-4">
+        <h3>Parcels Processed by Staff</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Staff Member</th>
+                    <th>Tracking Number</th>
+                    <th>Status</th>
+                    <th>Created At</th>
+                    <th>Updated At</th>
+                </tr>
+            </thead>
+			<tbody>
+				{% for parcel in parcels_per_staff %}
+					<tr>
+						<td>
+							{% if parcel.served_by %}
+								{{ parcel.served_by.username }}
+							{% else %}
+								N/A
+							{% endif %}
+						</td>
+						<td>{{ parcel.tracking_number }}</td>
+						<td>{{ parcel.status }}</td>
+						<td>{{ parcel.created_at|date:"Y-m-d H:i" }}</td>
+						<td>{{ parcel.updated_at|date:"Y-m-d H:i" }}</td>
+					</tr>
+				{% empty %}
+					<tr><td colspan="5">No parcels processed yet.</td></tr>
+				{% endfor %}
+			</tbody>
+        </table>
+    </section>
+
+    <!-- Drivers and Availability -->
+    <section class="mt-5">
+        <h3>Drivers Availability</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>License Number</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>Availability</th>
+                </tr>
+            </thead>
+			<tbody>
+				{% for driver in drivers %}
+					<tr>
+						<td>{{ driver.first_name }} {{ driver.last_name }}</td>
+						<td>{{ driver.license_number }}</td>
+						<td>{{ driver.phone_number }}</td>
+						<td>{{ driver.email }}</td>
+						<td>
+							{% if driver.available %}
+								Available
+							{% else %}
+								Unavailable
+							{% endif %}
+						</td>
+					</tr>
+				{% empty %}
+					<tr><td colspan="5">No drivers found.</td></tr>
+				{% endfor %}
+			</tbody>
+        </table>
+    </section>
+
+    <!-- Vehicles and Availability -->
+    <section class="mt-5">
+        <h3>Vehicles Availability</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Plate Number</th>
+                    <th>Model</th>
+                    <th>Capacity</th>
+                    <th>Availability</th>
+                </tr>
+            </thead>
+			<tbody>
+				{% for vehicle in vehicles %}
+					<tr>
+						<td>{{ vehicle.plate_number }}</td>
+						<td>{{ vehicle.model }}</td>
+						<td>{{ vehicle.capacity }}</td>
+						<td>
+							{% if vehicle.available %}
+								Available
+							{% else %}
+								Unavailable
+							{% endif %}
+						</td>
+					</tr>
+				{% empty %}
+					<tr><td colspan="4">No vehicles found.</td></tr>
+				{% endfor %}
+			</tbody>
+        </table>
+    </section>
+
+    <!-- Recent Parcel Events -->
+    <section class="mt-5">
+        <h3>Recent Parcel Events</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Parcel</th>
+                    <th>Event Type</th>
+                    <th>Timestamp</th>
+                    <th>Updated By</th>
+                </tr>
+            </thead>
+			<tbody>
+				{% for event in recent_events %}
+					<tr>
+						<td>{{ event.parcel.tracking_number }}</td>
+						<td>{{ event.event_type }}</td>
+						<td>{{ event.timestamp|date:"Y-m-d H:i" }}</td>
+						<td>
+							{% if event.updated_by %}
+								{{ event.updated_by.username }}
+							{% else %}
+								System
+							{% endif %}
+						</td>
+					</tr>
+				{% empty %}
+					<tr><td colspan="4">No recent events found.</td></tr>
+				{% endfor %}
+			</tbody>
+        </table>
+    </section>
+</div>
+{% endblock %}

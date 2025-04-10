@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Staff Incident Reports</h2>
+    <p>This is a placeholder for the incident report page. Reports will be shown here.</p>
+
+    {% if reports %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Report ID</th>
+                    <th>Description</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for report in reports %}
+                    <tr>
+                        <td>{{ report.id }}</td>
+                        <td>{{ report.description }}</td>
+                        <td>{{ report.date }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No incident reports available.</p>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}  <!-- Make sure this line is correctly placed -->
+
+{% block title %}
+    Make Payment
+{% endblock %}
+
+{% block content %}
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <div class="container mt-5">
+        <h2>Make Payment</h2>
+        <form method="post">
+            {% csrf_token %}
+            <label for="phone_number">Mpesa Phone Number:</label>
+            <input type="text" id="phone_number" name="phone_number" pattern="254\d{9}" maxlength="12"
+                   placeholder="Enter phone number (e.g., 254XXXXXXXXX)" required
+                   value="254" title="Phone number must start with '254' and be exactly 12 digits long">
+            <label for="amount">Amount (Kshs):</label>
+            <input type="text" name="amount" value="{{ amount }}" readonly required>
+            <button type="submit" class="btn btn-primary" style="text-transform: none;">Pay with Mpesa</button>
+        </form>
+    </div>
+    <!-- Optional JavaScript for Bootstrap -->
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const phoneNumberInput = document.getElementById('phone_number');
+
+            // Ensure the prefix '254' is always present
+            phoneNumberInput.addEventListener('input', function (e) {
+                const input = e.target;
+                if (!input.value.startsWith('254')) {
+                    input.value = '254';
+                }
+            });
+
+            // Place the cursor at the end of the input when focused
+            phoneNumberInput.addEventListener('focus', function (e) {
+                const input = e.target;
+                setTimeout(() => {
+                    input.setSelectionRange(input.value.length, input.value.length);
+                }, 0);
+            });
+        });
+    </script>
+{% endblock %}

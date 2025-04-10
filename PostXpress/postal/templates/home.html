@@ -1,0 +1,101 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to PostXpress</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Welcome to PostXpress</h1>
+        <nav>
+            <ul>
+                <li><a href="{% url 'signup' %}">Sign Up</a></li>
+                <li><a href="{% url 'login' %}">Log In</a></li>
+                <li><a href="{% url 'register_parcel' %}">Register Parcel</a></li>
+                <li><a href="{% url 'parcel_tracking' %}">Track Parcel</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <!-- About PostXpress Section -->
+        <section class="about-us">
+            <h2>About PostXpress</h2>
+            <p>PostXpress is a cloud-based postal management system that offers streamlined services for parcel registration, tracking, and electronic payments. Our mission is to revolutionize postal services by offering real-time tracking, enhanced customer service, and secure payment gateways, ensuring a seamless experience for both businesses and individuals.</p>
+        </section>
+
+        <!-- Our Services Section -->
+        <section class="our-services">
+            <h2>Our Key Services</h2>
+            <div class="stats-grid">
+                <div class="stat">
+                    <h3>Parcel Registration</h3>
+                    <p>Register and manage your parcels with ease using our intuitive system.</p>
+                </div>
+                <div class="stat">
+                    <h3>Real-Time Tracking</h3>
+                    <p>Track your parcels in real time from anywhere in the world.</p>
+                </div>
+                <div class="stat">
+                    <h3>Secure Payments</h3>
+                    <p>Make payments quickly and securely via our integrated payment gateway.</p>
+                </div>
+                <div class="stat">
+                    <h3>Strong Room & Mail Processing</h3>
+                    <p>Handle high volumes of mail and parcels securely with our strong room management system.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Real-Time Stats Section -->
+        <section class="real-time-stats">
+            <h2>Real-Time Stats</h2>
+            <div class="stats-grid">
+                <div class="stat">
+                    <h3>Parcels Registered</h3>
+                    <p id="registered-count">25,000+</p>
+                </div>
+                <div class="stat">
+                    <h3>Parcels in Transit</h3>
+                    <p id="transit-count">5,000+</p>
+                </div>
+                <div class="stat">
+                    <h3>Delivered Parcels</h3>
+                    <p id="delivered-count">20,000+</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Customer Testimonials Section -->
+        <section class="testimonials">
+            <h2>What Our Customers Say</h2>
+            <div class="testimonial-grid">
+                <div class="testimonial">
+                    <p>"PostXpress has completely transformed the way we manage our parcels. The real-time tracking is especially helpful!"</p>
+                    <span>- Jane Doe, eCommerce Manager</span>
+                </div>
+                <div class="testimonial">
+                    <p>"Fast, efficient, and secure. I can now send parcels from anywhere and track them without any hassle."</p>
+                    <span>- John Smith, Business Owner</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Call to Action -->
+        <section class="cta">
+            <h2>Ready to experience seamless postal services?</h2>
+            <p><a href="{% url 'signup' %}" class="btn">Get Started Today</a></p>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 PostXpress - All rights reserved.</p>
+        <nav>
+            <a href="{% url 'contact' %}">Contact Us</a> | <a href="{% url 'faq' %}">FAQ</a>
+        </nav>
+    </footer>
+</body>
+</html>

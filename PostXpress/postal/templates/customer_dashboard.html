@@ -1,0 +1,85 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PostXpress Dashboard</title>
+	{% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Welcome to PostXpress Dashboard</h1>
+        <nav>
+            <ul>
+                <li><a href="{% url 'register_parcel' %}">Register Parcel</a></li>
+                <li><a href="{% url 'track_parcel' %}">Track Parcel</a></li>
+                <li><a href="{% url 'incident_report' %}">Incident Reporting</a></li>
+                <li><a href="{% url 'payment_history' %}">Payments</a></li>
+                {% if user.is_staff %}
+                <li><a href="{% url 'staff_dashboard' %}">Staff Dashboard</a></li>
+                <li><a href="{% url 'reports' %}">Reports</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <section class="dashboard-info">
+            <h2>Quick Overview</h2>
+            <div class="stats-grid">
+                <div class="stat">
+                    <h3>Parcels Registered</h3>
+                    <p>250</p>
+                </div>
+                <div class="stat">
+                    <h3>Parcels in Transit</h3>
+                    <p>120</p>
+                </div>
+                <div class="stat">
+                    <h3>Delivered Parcels</h3>
+                    <p>100</p>
+                </div>
+                <div class="stat">
+                    <h3>Pending Payments</h3>
+                    <p>5</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="parcel-tracking">
+            <h2>Track Your Parcel</h2>
+            <form method="post" action="{% url 'track_parcel' %}">
+                {% csrf_token %}
+                <input type="text" name="tracking_number" placeholder="Enter Tracking Number" required>
+                <button type="submit">Track</button>
+            </form>
+        </section>
+
+        <section class="notifications">
+            <h2>Notifications</h2>
+            <ul class="notification-list">
+                <li><span class="alert">Parcel #12345 is out for delivery!</span></li>
+                <li><span class="info">Payment received for Parcel #54321.</span></li>
+                <li><span class="error">Parcel #98765 failed to be delivered. Please contact support.</span></li>
+            </ul>
+        </section>
+
+        {% if user.is_staff %}
+        <section class="staff-actions">
+            <h2>Staff Quick Actions</h2>
+            <div class="quick-links">
+                <a href="{% url 'register_parcel' %}" class="btn">Register New Parcel</a>
+                <a href="{% url 'reports' %}" class="btn">View Reports</a>
+                <a href="{% url 'staff_incident_report' %}" class="btn">Incident Reports</a>
+            </div>
+        </section>
+        {% endif %}
+    </div>
+
+    <footer>
+        <p>&copy; 2024 PostXpress - All rights reserved</p>
+    </footer>
+</body>
+</html>

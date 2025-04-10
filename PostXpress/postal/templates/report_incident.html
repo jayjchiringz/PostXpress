@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    Report Incident
+{% endblock %}
+
+{% block content %}
+	<head>
+		<style>
+			.form-container {
+				max-width: 600px;
+				margin: 0 auto;
+				padding: 20px;
+				border: 1px solid #ccc;
+				border-radius: 10px;
+				background-color: #f9f9f9;
+			}
+			.search-field {
+				margin-bottom: 20px;
+			}
+			.alert {
+				padding: 15px;
+				margin-bottom: 20px;
+				border-radius: 4px;
+				color: white;
+			}
+			.alert-success { background-color: #4CAF50; }  /* Green for success */
+			.alert-error { background-color: #f44336; }    /* Red for error */
+		</style>
+	</head>
+
+	<body>
+		<div class="form-container">
+            <!-- Ensure the form has POST method and CSRF token -->
+			<form method="POST" enctype="multipart/form-data">
+				{% csrf_token %}
+				<h2>Report Incident</h2>
+				
+				<!-- Search Field -->
+				<div class="search-field">
+					<label for="search">Search for Parcel, Driver, or Vehicle</label>
+					<input type="text" id="search" class="form-control" placeholder="Search..." onkeyup="filterDropdowns()">
+				</div>
+
+				<!-- Parcel Dropdown -->
+				<div class="form-group">
+					<label for="parcel">Select Parcel</label>
+					<select id="parcel" name="parcel" class="form-control">
+						{% for parcel in parcels %}
+							<option value="{{ parcel.id }}">{{ parcel.tracking_number }} - {{ parcel.receiver_name }}</option>
+						{% endfor %}
+					</select>
+				</div>
+
+				<!-- Vehicle Dropdown -->
+				<div class="form-group">
+					<label for="vehicle">Select Vehicle</label>
+					<select id="vehicle" name="vehicle" class="form-control">
+						<option value="">-- None --</option>  <!-- Add this option for "None" -->
+						{% for vehicle in vehicles %}
+							<option value="{{ vehicle.id }}">{{ vehicle.plate_number }} - {{ vehicle.model }}</option>
+						{% endfor %}
+					</select>
+				</div>
+
+				<!-- Driver Dropdown -->
+				<div class="form-group">
+					<label for="driver">Select Driver</label>
+					<select id="driver" name="driver" class="form-control">
+						<option value="">-- None --</option>  <!-- Add this option for "None" -->
+						{% for driver in drivers %}
+							<option value="{{ driver.id }}">{{ driver.first_name }} {{ driver.last_name }}</option>
+						{% endfor %}
+					</select>
+				</div>
+
+				<!-- Incident Description -->
+				<div class="form-group">
+					<label for="description">Incident Description</label>
+					<textarea id="description" name="description" class="form-control" rows="5" placeholder="Describe the incident..."></textarea>
+				</div>
+
+				<!-- Upload Files -->
+				<div class="form-group">
+					<label for="files">Upload File(s)</label>
+					<input type="file" id="files" name="files" class="form-control" multiple>
+				</div>
+				<div><br></div>
+				
+				<!-- Submit Button -->
+				<button type="submit" class="btn btn-primary" style="text-transform: none;">Submit Incident</button>
+			</form>
+		</div>
+
+		<!-- JavaScript for Search Filtering -->
+		<script>
+			function filterDropdowns() {
+				const searchValue = document.getElementById('search').value.toLowerCase();
+
+				filterDropdown('parcel', searchValue);
+				filterDropdown('vehicle', searchValue);
+				filterDropdown('driver', searchValue);
+			}
+
+			function filterDropdown(dropdownId, searchValue) {
+				const dropdown = document.getElementById(dropdownId);
+				const options = dropdown.getElementsByTagName('option');
+
+				for (let i = 0; i < options.length; i++) {
+					const optionText = options[i].textContent.toLowerCase();
+					if (optionText.includes(searchValue)) {
+						options[i].style.display = '';
+					} else {
+						options[i].style.display = 'none';
+					}
+				}
+			}
+		</script>
+	</body>
+{% endblock %}

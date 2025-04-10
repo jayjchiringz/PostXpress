@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scan QR Code</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
+        #video { width: 100%; max-width: 600px; }
+        #message { margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <h1>Scan QR Code</h1>
+    <video id="video" autoplay playsinline></video>
+    <p id="message">Point the camera at the QR code.</p>
+    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.3.1/dist/jsQR.min.js"></script>
+    <script>
+        const video = document.getElementById('video');
+        const message = document.getElementById('message');
+
+        // Start video stream from camera
+        function startVideo() {
+            navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
+                .then(stream => {
+                    video.srcObject = stream;
+                })
+                .catch(err => {
+                    console.error("Error accessing camera: ", err);
+                });
+        }
+
+        function scanQRCode() {
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+            const code = jsQR(imageData.data, imageData.width, imageData.height);
+
+            if (code) {
+                message.textContent = `QR Code detected: ${code.data}`;
+                updateParcelStatus(code.data); // Call the function to update parcel status
+            } else {
+                requestAnimationFrame(scanQRCode);
+            }
+        }
+
+        function updateParcelStatus(trackingNumber) {
+            // Update the parcel status via POST request
+            fetch('/scan_qr_code/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: `tracking_number=${trackingNumber}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert(data.success);
+                    message.textContent = "Status updated successfully!";
+                } else {
+                    alert("Error: " + data.error);
+                    message.textContent = "Error updating status.";
+                }
+            })
+            .catch(error => console.error("Error:", error));
+        }
+
+        video.addEventListener('play', () => {
+            requestAnimationFrame(scanQRCode);
+        });
+
+        startVideo();
+    </script>
+</body>
+</html>

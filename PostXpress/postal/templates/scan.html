@@ -1,0 +1,210 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    Scan QR Code
+{% endblock %}
+{% block content %}
+	<head>
+		<style>
+			.center-container {
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+				margin-top: 20px;
+			}
+			/* Style the input box */
+			input[type="text"] {
+				width: 300px;
+				padding: 10px;
+				border: 2px solid #007BFF;
+				border-radius: 5px;
+				text-align: center;
+				font-weight: bold;
+				font-size: 16px;
+				color: #333;
+				outline: none;
+			}
+			body { 
+				font-family: Arial, sans-serif; 
+				text-align: center; 
+				padding: 20px; 
+			}
+			#video { 
+				width: 100%; 
+				max-width: 600px; 
+			}
+			#qr-canvas { 
+				display: none; 
+			}
+			#message { 
+				margin-top: 20px; 
+			}
+			#outputData { 
+				margin-top: 20px; 
+				font-size: 1.2em; 
+				color: #007BFF; 
+			}
+		</style>
+	</head>
+	<body>
+		<h1>Scan QR Code</h1>
+		<video id="video" autoplay playsinline></video>
+		<canvas id="qr-canvas"></canvas>
+		<p id="message">Point the camera at the QR code.</p>
+		<p id="outputData"></p>
+
+		<!-- CSRF Token -->
+		<meta name="csrf-token" content="{{ csrf_token }}">
+
+		<!-- Input field and update button -->
+		<input type="text" id="trackingNumberInput" placeholder="Enter tracking number manually (optional)" />
+		<div><br></div>
+		<!--<button onclick="manualUpdateParcelStatus()">Update Parcel Status</button>-->
+		
+		<!-- Audio elements for the alarms -->
+		<audio id="alarmStart" src="{% static 'audio/mixkit-epic-orchestra-transition-2290.wav' %}" preload="auto"></audio>
+		<audio id="alarmEnd" src="{% static 'audio/mixkit-intro-transition-1146.wav' %}" preload="auto"></audio>
+
+		<script src="https://cdn.jsdelivr.net/npm/jsqr@1.3.1/dist/jsQR.min.js"></script>
+		<script>
+			const video = document.getElementById('video');
+			const canvasElement = document.getElementById('qr-canvas');
+			const canvas = canvasElement.getContext('2d');
+			const outputData = document.getElementById('outputData');
+			const message = document.getElementById('message');
+			const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+			const alarmStart = document.getElementById('alarmStart');
+			const alarmEnd = document.getElementById('alarmEnd');
+
+			// Start video stream from the camera
+			const startVideo = () => {
+				navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
+					.then(stream => {
+						video.srcObject = stream;
+						video.setAttribute('playsinline', true);
+						video.play();
+						requestAnimationFrame(scanQRCode);
+					})
+					.catch(err => {
+						console.error("Error accessing camera: ", err);
+						message.textContent = "Error accessing camera. Please allow camera permissions and reload the page.";
+					});
+			};
+
+			// Scan the QR code and extract the tracking number
+			const scanQRCode = () => {
+				if (video.readyState === video.HAVE_ENOUGH_DATA) {
+					canvasElement.hidden = false;
+					canvasElement.height = video.videoHeight;
+					canvasElement.width = video.videoWidth;
+					canvas.drawImage(video, 0, 0, canvasElement.width, canvasElement.height);
+					const imageData = canvas.getImageData(0, 0, canvasElement.width, canvasElement.height);
+					const code = jsQR(imageData.data, imageData.width, imageData.height, { inversionAttempts: "dontInvert" });
+
+					if (code) {
+						const scannedURL = code.data;
+						outputData.innerText = `QR Code detected: ${scannedURL}`;
+						message.textContent = "Processing QR code...";
+
+						const trackingNumber = extractTrackingNumber(scannedURL);
+
+						if (trackingNumber) {
+							document.getElementById('trackingNumberInput').value = trackingNumber;
+							updateParcelStatus(trackingNumber);
+						} else {
+							message.textContent = "Invalid QR code format. Tracking number not found.";
+						}
+					} else {
+						requestAnimationFrame(scanQRCode);
+					}
+				} else {
+					requestAnimationFrame(scanQRCode);
+				}
+			};
+
+			// Function to extract tracking number from the scanned URL
+			const extractTrackingNumber = (url) => {
+				try {
+					const urlObj = new URL(url);
+					const params = new URLSearchParams(urlObj.search);
+					return params.get('tracking_number');
+				} catch (error) {
+					console.error('Error parsing URL:', error);
+					return null;
+				}
+			};
+
+			// Update parcel status using the scanned QR code or manual input
+			const updateParcelStatus = (trackingNumber) => {
+				if (!trackingNumber) {
+					alert('No tracking number detected.');
+					return;
+				}
+
+				fetch('/scan_qr_code/', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/x-www-form-urlencoded',
+						'X-CSRFToken': csrfToken
+					},
+					body: new URLSearchParams({
+						'tracking_number': trackingNumber
+					})
+				})
+				.then(response => response.json())
+				.then(data => {
+					if (data.success) {
+						const stage = data.success.match(/status updated to (.+)\./)[1]; // Extract the stage from the success message
+						message.textContent = `Parcel status updated to ${stage}. Thank you.`; // Update the message displayed
+						alert(`Parcel status updated to ${stage}.`); // Show an alert with the message
+						
+						// Play the speech with the updated message
+						const speech = new SpeechSynthesisUtterance(`Parcel status updated to ${stage}. Thank you.`);
+						window.speechSynthesis.speak(speech);
+					} else {
+						alert('Error: ' + data.error);
+						message.textContent = "Error updating parcel status.";
+					}
+				})
+				.catch(error => {
+					console.error('Error:', error);
+					alert('Failed to update parcel status');
+				});
+			};
+
+			// Manually update parcel status using the input field
+			const manualUpdateParcelStatus = () => {
+				const trackingNumber = document.getElementById('trackingNumberInput').value;
+
+				if (!trackingNumber) {
+					alert('Please enter a tracking number manually.');
+					return;
+				}
+
+				updateParcelStatus(trackingNumber);
+			};
+
+			// Play audio notification and speech synthesis
+			const playNotification = (statusMessage) => {
+				// Play the start alarm sound
+				alarmStart.play();
+				
+				// When the start alarm sound ends, speak the message
+				alarmStart.onended = () => {
+					const speech = new SpeechSynthesisUtterance(`Parcel status updated. Thank you.`);
+					speech.lang = 'en-US';
+					window.speechSynthesis.speak(speech);
+
+					// When the message finishes, play the end alarm sound
+					speech.onend = () => {
+						alarmEnd.play();
+					};
+				};
+			};
+
+			// Start the video stream for scanning
+			startVideo();
+		</script>
+	</body>
+{% endblock %}

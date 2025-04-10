@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Sign Up
+{% endblock %}
+
+{% block content %}
+    <h1>Parcel Receipt</h1>
+    <p><strong>Tracking Number:</strong> {{ parcel.tracking_number }}</p>
+    <p><strong>Sender:</strong> {{ parcel.sender.username }}</p>
+    <p><strong>Receiver Name:</strong> {{ parcel.receiver_name }}</p>
+    <p><strong>Origin:</strong> {{ parcel.origin_location }}</p>
+    <p><strong>Destination:</strong> {{ parcel.destination }}</p>
+
+    {% if payment_info %}
+        <h2>Payment Details</h2>
+        <p><strong>Amount:</strong> {{ payment_info.amount }}</p>
+        <p><strong>Method:</strong> {{ payment_info.payment_method }}</p>
+        <p><strong>Status:</strong> {{ payment_info.payment_status }}</p>
+    {% else %}
+        <p>No payment information available for this parcel.</p>
+    {% endif %}
+{% endblock %}
+
+<!-- Optional JavaScript for Bootstrap -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>

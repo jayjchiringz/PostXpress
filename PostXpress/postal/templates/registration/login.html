@@ -1,0 +1,21 @@
+<!-- templates/registration/login.html -->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Login
+{% endblock %}
+{% block content %}
+<div class="container mt-5">
+	<h2>Login</h2>
+		<form method="post" action="{% url 'login' %}">
+			{% csrf_token %}
+			{{ form.as_p }}
+			<button type="submit" class="btn btn-primary" style="display: block; margin-top: 20px; text-transform: none;">Login</button>
+		</form>
+</div>
+{% endblock %}
+
+<!-- Optional JavaScript for Bootstrap
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+-->
