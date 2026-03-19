@@ -7,11 +7,11 @@ services:
     plan: free
     buildCommand: |
       echo "🔍 Current directory: $(pwd)"
-      echo "📂 Full directory structure:"
+      echo "📂 Listing root directory:"
       ls -la
-      
-      # Verify Python version
-      echo "🔍 Python version: $(python --version)"
+      echo "🔍 Checking for runtime.txt:"
+      cat runtime.txt || echo "❌ runtime.txt not found!"
+      echo "🔍 Python version at start: $(python --version)"
       
       # Navigate to the PostXpress directory where manage.py lives
       echo "📂 Changing to PostXpress directory..."
