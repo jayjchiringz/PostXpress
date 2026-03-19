@@ -6,6 +6,11 @@ services:
     region: frankfurt  # Choose closest to your users
     plan: free
     buildCommand: |
+      echo "🔍 Current directory: $(pwd)"
+      echo "📂 Listing files:"
+      ls -la
+      echo "🔍 Looking for manage.py:"
+      find . -name "manage.py" -type f
       pip install --upgrade pip
       pip install -r requirements.txt
       python manage.py collectstatic --noinput
