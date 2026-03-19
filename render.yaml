@@ -5,6 +5,7 @@ services:
     runtime: python
     region: frankfurt
     plan: free
+    dockerfilePath: ./Dockerfile
     buildCommand: |
       echo "🔍 Current directory: $(pwd)"
       echo "📂 Listing root directory:"
