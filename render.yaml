@@ -1,11 +1,11 @@
-# render.yaml
+# render.yaml - for reference only
 services:
   - type: web
-    name: postxpress-api
+    name: postxpress-api-v2
     runtime: docker
+    dockerfilePath: ./Dockerfile
     region: frankfurt
     plan: free
-    dockerfilePath: ./Dockerfile
     envVars:
       - key: DJANGO_SETTINGS_MODULE
         value: PostXpress.settings_production

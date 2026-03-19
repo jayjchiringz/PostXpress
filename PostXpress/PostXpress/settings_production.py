@@ -6,9 +6,25 @@ import os
 # Security
 DEBUG = False
 SECRET_KEY = os.environ.get('SECRET_KEY')
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split(',')
 
-# Database - PostgreSQL
+# Fix: Add schemes to ALLOWED_HOSTS
+ALLOWED_HOSTS = ['.onrender.com', 'localhost', '127.0.0.1']
+
+# Fix: Add schemes to CSRF_TRUSTED_ORIGINS
+CSRF_TRUSTED_ORIGINS = [
+    'https://*.onrender.com',
+    'https://farm-fuzion-frontend-vercel.vercel.app'
+]
+
+# Fix: Add schemes to CORS_ALLOWED_ORIGINS
+CORS_ALLOWED_ORIGINS = [
+    'https://farm-fuzion-frontend-vercel.vercel.app',
+    'https://farm-fuzion-backend.onrender.com',
+    'http://localhost:3000'
+]
+CORS_ALLOW_ALL_ORIGINS = False
+
+# Database - PostgreSQL (don't run migrations during build)
 DATABASES = {
     'default': dj_database_url.config(
         default=os.environ.get('DATABASE_URL'),
@@ -17,14 +33,9 @@ DATABASES = {
     )
 }
 
-# CORS - Restrict to FarmFuzion
-CORS_ALLOW_ALL_ORIGINS = False
-CORS_ALLOWED_ORIGINS = os.environ.get('CORS_ALLOWED_ORIGINS', '').split(',')
-CSRF_TRUSTED_ORIGINS = os.environ.get('CSRF_TRUSTED_ORIGINS', '').split(',')
-
 # Static files
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Add whitenoise middleware
 MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
