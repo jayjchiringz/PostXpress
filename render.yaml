@@ -10,6 +10,9 @@ services:
       echo "📂 Full directory structure:"
       ls -la
       
+      # Verify Python version
+      echo "🔍 Python version: $(python --version)"
+      
       # Navigate to the PostXpress directory where manage.py lives
       echo "📂 Changing to PostXpress directory..."
       cd PostXpress
@@ -34,10 +37,10 @@ services:
       echo "📦 Upgrading pip and build tools..."
       pip install --upgrade pip setuptools wheel
       
-      echo "📦 Installing dependencies..."
+      echo "📦 Installing dependencies from root requirements.txt..."
       # Install gunicorn first
       pip install gunicorn==21.2.0
-      # Install requirements (psycopg2-binary will use pre-built wheel for Python 3.11)
+      # Install requirements from root
       pip install -r ../requirements.txt
       echo "✅ Dependencies installed"
       
