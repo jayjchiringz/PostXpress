@@ -68,6 +68,8 @@ services:
       python -c "import psycopg2; print(f'✅ psycopg2 {psycopg2.__version__} loaded')" || echo "❌ psycopg2 failed"
       exec gunicorn PostXpress.wsgi:application --workers 4 --worker-class sync --timeout 120 --access-logfile '-' --bind 0.0.0.0:$PORT
     envVars:
+      - key: PYTHON_VERSION
+        value: "3.11.9"
       - key: DJANGO_SETTINGS_MODULE
         value: PostXpress.settings_production
       - key: SECRET_KEY
