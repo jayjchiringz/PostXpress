@@ -10,6 +10,15 @@ services:
       echo "📂 Full directory structure:"
       ls -la
       
+      # Install system dependencies for psycopg2 compilation
+      echo "🔧 Installing system build dependencies..."
+      apt-get update && apt-get install -y --no-install-recommends \
+        build-essential \
+        libpq-dev \
+        python3-dev \
+        gcc \
+        && rm -rf /var/lib/apt/lists/*
+      
       # Navigate to the PostXpress directory where manage.py lives
       echo "📂 Changing to PostXpress directory..."
       cd PostXpress
@@ -29,14 +38,24 @@ services:
       echo "✅ Virtual environment created"
       echo "🔧 Activating virtual environment..."
       source venv/bin/activate
+      
+      # Upgrade pip and build tools
+      echo "📦 Upgrading pip and build tools..."
+      pip install --upgrade pip setuptools wheel
+      
       echo "📦 Installing dependencies from parent directory..."
-      pip install --upgrade pip
+      # First install gunicorn explicitly
+      pip install gunicorn==21.2.0
+      # Then install everything else, forcing psycopg2 to compile
       pip install -r ../requirements.txt
       echo "✅ Dependencies installed"
       
-      # Verify PostgreSQL driver installation
+      # Verify installations
+      echo "🔍 Verifying gunicorn installation..."
+      which gunicorn && gunicorn --version || echo "❌ gunicorn installation failed"
+      
       echo "🔍 Verifying psycopg2 installation..."
-      python -c "import psycopg2; print('✅ psycopg2 loaded successfully')" || echo "❌ psycopg2 failed to load"
+      python -c "import psycopg2; print('✅ psycopg2 loaded successfully - version:', psycopg2.__version__)" || echo "❌ psycopg2 failed to load"
       
       echo "🎨 Collecting static files..."
       python manage.py collectstatic --noinput
@@ -45,19 +64,18 @@ services:
       python manage.py migrate
       echo "✅ Migrations complete"
       
-      # Verify gunicorn is installed
-      echo "🔍 Checking gunicorn installation..."
-      which gunicorn || echo "❌ gunicorn not found in PATH"
-      ls -la venv/bin/ | grep gunicorn || echo "❌ gunicorn not in venv/bin"
+      # Final verification
+      echo "🔍 Final gunicorn check: $(which gunicorn)"
+      ls -la venv/bin/ | grep gunicorn
       
     startCommand: |
       cd /opt/render/project/src/PostXpress
       export PATH="/opt/render/project/src/PostXpress/venv/bin:$PATH"
       echo "🚀 Starting gunicorn server from $(pwd)..."
       echo "🔍 Python version: $(python --version)"
-      echo "🔍 Gunicorn path: $(which gunicorn || echo 'not found')"
+      echo "🔍 Gunicorn path: $(which gunicorn)"
       echo "🔍 Checking psycopg2..."
-      python -c "import psycopg2; print('✅ psycopg2 loaded')" || echo "❌ psycopg2 failed"
+      python -c "import psycopg2; print('✅ psycopg2 loaded - version:', psycopg2.__version__)" || echo "❌ psycopg2 failed"
       exec gunicorn PostXpress.wsgi:application --workers 4 --worker-class sync --timeout 120 --access-logfile '-' --bind 0.0.0.0:$PORT
     envVars:
       - key: DJANGO_SETTINGS_MODULE
