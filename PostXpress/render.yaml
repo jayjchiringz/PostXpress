@@ -3,17 +3,13 @@ services:
   - type: web
     name: postxpress-api
     runtime: python
-    region: frankfurt  # Choose closest to your users
+    region: frankfurt
     plan: free
     buildCommand: |
       echo "🔍 Current directory: $(pwd)"
       echo "📂 Full directory structure:"
       ls -la
-      echo "📁 Listing all directories:"
-      ls -la ..
-      echo "🔍 Searching for manage.py:"
-      find /opt/render -name "manage.py" -type f 2>/dev/null || echo "❌ manage.py not found"
-      echo "🐍 Creating virtual environment..."
+      echo "🔧 Creating virtual environment..."
       python -m venv venv
       echo "✅ Virtual environment created"
       echo "🔧 Activating virtual environment..."
@@ -22,16 +18,34 @@ services:
       pip install --upgrade pip
       pip install -r requirements.txt
       echo "✅ Dependencies installed"
+      
+      # Verify manage.py exists
+      if [ -f "manage.py" ]; then
+        echo "✅ manage.py found in current directory"
+      else
+        echo "❌ manage.py not found in current directory"
+        ls -la
+        exit 1
+      fi
+      
       echo "🎨 Collecting static files..."
       python manage.py collectstatic --noinput
       echo "✅ Static files collected"
       echo "🗄️ Running migrations..."
       python manage.py migrate
       echo "✅ Migrations complete"
+      
+      # Verify gunicorn is installed
+      echo "🔍 Checking gunicorn installation..."
+      which gunicorn || echo "❌ gunicorn not found in PATH"
+      ls -la venv/bin/ | grep gunicorn || echo "❌ gunicorn not in venv/bin"
+      
     startCommand: |
+      cd /opt/render/project/src
       source venv/bin/activate
-      echo "🚀 Starting gunicorn server..."
-      gunicorn PostXpress.wsgi:application --workers 4 --worker-class sync --timeout 120 --access-logfile '-'
+      echo "🚀 Starting gunicorn server from $(pwd)..."
+      echo "🔍 Gunicorn path: $(which gunicorn)"
+      exec gunicorn PostXpress.wsgi:application --workers 4 --worker-class sync --timeout 120 --access-logfile '-' --bind 0.0.0.0:$PORT
     envVars:
       - key: DJANGO_SETTINGS_MODULE
         value: PostXpress.settings_production
@@ -63,12 +77,6 @@ services:
         sync: false
       - key: MPESA_CALLBACK_URL
         value: "https://postxpress-api.onrender.com/mpesa-callback/"
-      - key: TWILIO_ACCOUNT_SID
-        sync: false
-      - key: TWILIO_AUTH_TOKEN
-        sync: false
-      - key: TWILIO_PHONE_NUMBER
-        sync: false
 
 databases:
   - name: postxpress-db
