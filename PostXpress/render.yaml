@@ -34,6 +34,10 @@ services:
       pip install -r ../requirements.txt
       echo "✅ Dependencies installed"
       
+      # Verify PostgreSQL driver installation
+      echo "🔍 Verifying psycopg2 installation..."
+      python -c "import psycopg2; print('✅ psycopg2 loaded successfully')" || echo "❌ psycopg2 failed to load"
+      
       echo "🎨 Collecting static files..."
       python manage.py collectstatic --noinput
       echo "✅ Static files collected"
@@ -41,10 +45,19 @@ services:
       python manage.py migrate
       echo "✅ Migrations complete"
       
+      # Verify gunicorn is installed
+      echo "🔍 Checking gunicorn installation..."
+      which gunicorn || echo "❌ gunicorn not found in PATH"
+      ls -la venv/bin/ | grep gunicorn || echo "❌ gunicorn not in venv/bin"
+      
     startCommand: |
       cd /opt/render/project/src/PostXpress
-      source venv/bin/activate
+      export PATH="/opt/render/project/src/PostXpress/venv/bin:$PATH"
       echo "🚀 Starting gunicorn server from $(pwd)..."
+      echo "🔍 Python version: $(python --version)"
+      echo "🔍 Gunicorn path: $(which gunicorn || echo 'not found')"
+      echo "🔍 Checking psycopg2..."
+      python -c "import psycopg2; print('✅ psycopg2 loaded')" || echo "❌ psycopg2 failed"
       exec gunicorn PostXpress.wsgi:application --workers 4 --worker-class sync --timeout 120 --access-logfile '-' --bind 0.0.0.0:$PORT
     envVars:
       - key: DJANGO_SETTINGS_MODULE
