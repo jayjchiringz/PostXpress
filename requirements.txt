@@ -5,9 +5,16 @@ django-cors-headers==4.6.0
 django-extensions==3.2.3
 django-allauth==65.0.2
 
-# Database
+# Database - PostgreSQL (will use pre-built wheel for Python 3.11)
 psycopg2-binary==2.9.9
-dj-database-url==2.1.0  # ADD THIS - for PostgreSQL connection from environment
+dj-database-url==2.1.0
+
+# WSGI server
+gunicorn==21.2.0
+
+# Build tools
+wheel==0.43.0
+setuptools==69.5.1
 
 # Async/HTTP
 aiohttp==3.10.9
