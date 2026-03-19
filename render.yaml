@@ -2,75 +2,11 @@
 services:
   - type: web
     name: postxpress-api
-    runtime: python
+    runtime: docker
     region: frankfurt
     plan: free
     dockerfilePath: ./Dockerfile
-    buildCommand: |
-      echo "🔍 Current directory: $(pwd)"
-      echo "📂 Listing root directory:"
-      ls -la
-      echo "🔍 Checking for runtime.txt:"
-      cat runtime.txt || echo "❌ runtime.txt not found!"
-      echo "🔍 Python version at start: $(python --version)"
-      
-      # Navigate to the PostXpress directory where manage.py lives
-      echo "📂 Changing to PostXpress directory..."
-      cd PostXpress
-      echo "✅ Now in: $(pwd)"
-      
-      # Verify manage.py is here
-      if [ -f "manage.py" ]; then
-        echo "✅ manage.py found in $(pwd)"
-      else
-        echo "❌ manage.py still not found!"
-        ls -la
-        exit 1
-      fi
-      
-      echo "🔧 Creating virtual environment..."
-      python -m venv venv
-      echo "✅ Virtual environment created"
-      echo "🔧 Activating virtual environment..."
-      source venv/bin/activate
-      
-      # Upgrade pip and build tools
-      echo "📦 Upgrading pip and build tools..."
-      pip install --upgrade pip setuptools wheel
-      
-      echo "📦 Installing dependencies from root requirements.txt..."
-      # Install gunicorn first
-      pip install gunicorn==21.2.0
-      # Install requirements from root
-      pip install -r ../requirements.txt
-      echo "✅ Dependencies installed"
-      
-      # Verify installations
-      echo "🔍 Verifying gunicorn installation..."
-      which gunicorn && gunicorn --version || echo "❌ gunicorn installation failed"
-      
-      echo "🔍 Verifying psycopg2 installation..."
-      python -c "import psycopg2; print(f'✅ psycopg2 {psycopg2.__version__} loaded successfully')" || echo "❌ psycopg2 failed to load"
-      
-      echo "🎨 Collecting static files..."
-      python manage.py collectstatic --noinput
-      echo "✅ Static files collected"
-      echo "🗄️ Running migrations..."
-      python manage.py migrate
-      echo "✅ Migrations complete"
-      
-    startCommand: |
-      cd /opt/render/project/src/PostXpress
-      export PATH="/opt/render/project/src/PostXpress/venv/bin:$PATH"
-      echo "🚀 Starting gunicorn server from $(pwd)..."
-      echo "🔍 Python version: $(python --version)"
-      echo "🔍 Gunicorn path: $(which gunicorn)"
-      echo "🔍 Checking psycopg2..."
-      python -c "import psycopg2; print(f'✅ psycopg2 {psycopg2.__version__} loaded')" || echo "❌ psycopg2 failed"
-      exec gunicorn PostXpress.wsgi:application --workers 4 --worker-class sync --timeout 120 --access-logfile '-' --bind 0.0.0.0:$PORT
     envVars:
-      - key: PYTHON_VERSION
-        value: "3.11.9"
       - key: DJANGO_SETTINGS_MODULE
         value: PostXpress.settings_production
       - key: SECRET_KEY
