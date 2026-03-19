@@ -9,24 +9,30 @@ services:
       echo "🔍 Current directory: $(pwd)"
       echo "📂 Full directory structure:"
       ls -la
+      
+      # Navigate to the PostXpress directory where manage.py lives
+      echo "📂 Changing to PostXpress directory..."
+      cd PostXpress
+      echo "✅ Now in: $(pwd)"
+      
+      # Verify manage.py is here
+      if [ -f "manage.py" ]; then
+        echo "✅ manage.py found in $(pwd)"
+      else
+        echo "❌ manage.py still not found!"
+        ls -la
+        exit 1
+      fi
+      
       echo "🔧 Creating virtual environment..."
       python -m venv venv
       echo "✅ Virtual environment created"
       echo "🔧 Activating virtual environment..."
       source venv/bin/activate
-      echo "📦 Installing dependencies..."
+      echo "📦 Installing dependencies from parent directory..."
       pip install --upgrade pip
-      pip install -r requirements.txt
+      pip install -r ../requirements.txt
       echo "✅ Dependencies installed"
-      
-      # Verify manage.py exists
-      if [ -f "manage.py" ]; then
-        echo "✅ manage.py found in current directory"
-      else
-        echo "❌ manage.py not found in current directory"
-        ls -la
-        exit 1
-      fi
       
       echo "🎨 Collecting static files..."
       python manage.py collectstatic --noinput
@@ -35,16 +41,10 @@ services:
       python manage.py migrate
       echo "✅ Migrations complete"
       
-      # Verify gunicorn is installed
-      echo "🔍 Checking gunicorn installation..."
-      which gunicorn || echo "❌ gunicorn not found in PATH"
-      ls -la venv/bin/ | grep gunicorn || echo "❌ gunicorn not in venv/bin"
-      
     startCommand: |
-      cd /opt/render/project/src
+      cd /opt/render/project/src/PostXpress
       source venv/bin/activate
       echo "🚀 Starting gunicorn server from $(pwd)..."
-      echo "🔍 Gunicorn path: $(which gunicorn)"
       exec gunicorn PostXpress.wsgi:application --workers 4 --worker-class sync --timeout 120 --access-logfile '-' --bind 0.0.0.0:$PORT
     envVars:
       - key: DJANGO_SETTINGS_MODULE
