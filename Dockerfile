@@ -14,6 +14,7 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y --no-install-recommends \
     gcc \
     libpq-dev \
+    curl \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy requirements first for better caching
@@ -33,7 +34,9 @@ RUN python manage.py collectstatic --noinput
 # Expose the port
 EXPOSE 10000
 
-# Start the application (migrations will run at runtime)
-CMD python manage.py makemigrations && \
-    python manage.py migrate && \
-    gunicorn PostXpress.wsgi:application --workers 4 --bind 0.0.0.0:$PORT --access-logfile '-'
+# Start the application with proper error handling
+# Using shell grouping to ensure gunicorn starts regardless of migration status
+CMD sh -c 'python manage.py makemigrations --noinput || echo "makemigrations failed, continuing..." ; \
+           python manage.py migrate --noinput || echo "migrate failed, continuing..." ; \
+           echo "Starting gunicorn on port $PORT" ; \
+           gunicorn PostXpress.wsgi:application --workers 4 --bind 0.0.0.0:$PORT --access-logfile - --error-logfile -'
