@@ -47,7 +47,7 @@ class Station(models.Model):
 class Driver(models.Model):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
-    phone_number = models.CharField(max_length=15, unique=True)
+    phone_number = models.CharField(max_length=20, unique=True)
     email = models.EmailField(unique=True)
     license_number = models.CharField(max_length=50, unique=True)
     available = models.BooleanField(default=True)
@@ -70,7 +70,7 @@ class Vehicle(models.Model):
 class Parcel(models.Model):
     tracking_number = models.CharField(max_length=100, unique=True, editable=False)
     served_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='served_parcels')
-    sender_phone = models.CharField(max_length=15, default='254')
+    sender_phone = models.CharField(max_length=20, default='254')
     sender_email = models.EmailField(null=True, blank=True)
     sender_POBOX = models.CharField(max_length=50, null=True, blank=True)
     sender_address = models.CharField(max_length=200, null=True, blank=True)  
@@ -79,7 +79,7 @@ class Parcel(models.Model):
     description = models.CharField(max_length=255)
         
     receiver_name = models.CharField(max_length=100)
-    receiver_phone = models.CharField(max_length=15, default='254')
+    receiver_phone = models.CharField(max_length=20, default='254')
     receiver_email = models.EmailField(null=True, blank=True)
     receiver_POBOX = models.CharField(max_length=50, null=True, blank=True)
     receiver_address = models.CharField(max_length=200, null=True, blank=True)
@@ -150,7 +150,7 @@ class ParcelEvent(models.Model):
 class Customer(models.Model):
     name = models.CharField(max_length=255)
     email = models.EmailField(unique=True)
-    phone_number = models.CharField(max_length=15)
+    phone_number = models.CharField(max_length=20)
 
     def __str__(self):
         return self.name
@@ -168,7 +168,7 @@ class PaymentInfo(models.Model):
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    phone_number = models.CharField(max_length=15, blank=True, null=True)
+    phone_number = models.CharField(max_length=20, blank=True, null=True)
     def __str__(self):
         return f"{self.user.username}'s Profile"
 
