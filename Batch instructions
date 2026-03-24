@@ -516,3 +516,23 @@ git add .
 git commit -m "Added debug logs in render.yaml"
 git push
 ----------------------------------------------------------------------------------------------------------
+
+
+----------------------------------------------------------------------------------------------------------
+# Render details
+Key	            Value
+DATABASE_URL	postgresql://postxpress_user:[YOUR_PASSWORD]@[YOUR_HOST]/postxpress
+DATABASE_URL	postgresql://postxpress_user:oXzD5SbVG2Nkk18n5G51ULvufBAlyDnr@dpg-d6u324fgi27c73e1674g-a/postxpress
+                postgresql://postxpress_user:oXzD5SbVG2Nkk18n5G51ULvufBAlyDnr@dpg-d6u324fgi27c73e1674g-a.oregon-postgres.render.com/postxpress
+----------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------
+# Add, commit and push the changes
+git add .
+git commit -m "Increase phone number field lengths to 20 characters"
+git push origin master
+----------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------
+pip install -r ..\requirements.txt
+----------------------------------------------------------------------------------------------------------

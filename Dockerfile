@@ -34,5 +34,6 @@ RUN python manage.py collectstatic --noinput
 EXPOSE 10000
 
 # Start the application (migrations will run at runtime)
-CMD python manage.py migrate && \
+CMD python manage.py makemigrations && \
+    python manage.py migrate && \
     gunicorn PostXpress.wsgi:application --workers 4 --bind 0.0.0.0:$PORT --access-logfile '-'
