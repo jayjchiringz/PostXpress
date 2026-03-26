@@ -42,8 +42,9 @@ DATABASES = {
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# Add whitenoise middleware
-MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
+# Add whitenoise middleware (check if already present)
+if 'whitenoise.middleware.WhiteNoiseMiddleware' not in MIDDLEWARE:
+    MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
 
 # Media files (for QR codes, barcodes)
 MEDIA_URL = '/media/'
@@ -64,12 +65,13 @@ SECURE_HSTS_PRELOAD = True
 # DJANGO REST FRAMEWORK & JWT SETTINGS
 # ============================================
 
-# Add REST Framework to INSTALLED_APPS
-INSTALLED_APPS += [
-    'rest_framework',
-    'rest_framework_simplejwt',
-    'corsheaders',
-]
+# Add REST Framework to INSTALLED_APPS (avoid duplicates)
+# Check each app before adding
+apps_to_add = ['rest_framework', 'rest_framework_simplejwt', 'corsheaders']
+
+for app in apps_to_add:
+    if app not in INSTALLED_APPS:
+        INSTALLED_APPS.append(app)
 
 # REST Framework Configuration
 REST_FRAMEWORK = {
