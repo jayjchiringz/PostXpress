@@ -6,7 +6,17 @@ from datetime import timedelta
 
 # Security
 DEBUG = False
-SECRET_KEY = os.environ.get('SECRET_KEY')
+
+# IMPORTANT: Use environment variable, but provide a fallback for build time
+# Render will override this with the actual secret at runtime
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-build-time-fallback-key-do-not-use-in-production')
+
+# For production, ensure we have a real secret
+if SECRET_KEY == 'django-insecure-build-time-fallback-key-do-not-use-in-production':
+    # Only print warning if we're not in a build context
+    import sys
+    if 'collectstatic' not in sys.argv:
+        print("WARNING: Using fallback SECRET_KEY. Set SECRET_KEY environment variable in production!")
 
 # Fix: Add schemes to ALLOWED_HOSTS
 ALLOWED_HOSTS = ['.onrender.com', 'localhost', '127.0.0.1']
@@ -66,7 +76,6 @@ SECURE_HSTS_PRELOAD = True
 # ============================================
 
 # Add REST Framework to INSTALLED_APPS (avoid duplicates)
-# Check each app before adding
 apps_to_add = ['rest_framework', 'rest_framework_simplejwt', 'corsheaders']
 
 for app in apps_to_add:
@@ -77,7 +86,7 @@ for app in apps_to_add:
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-        'postal.jwt_auth.FarmFuzionJWTAuthentication',  # Custom auth for FarmFuzion
+        'postal.jwt_auth.FarmFuzionJWTAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
@@ -97,7 +106,7 @@ SIMPLE_JWT = {
     'ROTATE_REFRESH_TOKENS': True,
     'BLACKLIST_AFTER_ROTATION': True,
     'ALGORITHM': 'HS256',
-    'SIGNING_KEY': SECRET_KEY,
+    'SIGNING_KEY': SECRET_KEY,  # This will use the fallback during build
     'VERIFYING_KEY': None,
     'AUTH_HEADER_TYPES': ('Bearer',),
     'USER_ID_FIELD': 'id',

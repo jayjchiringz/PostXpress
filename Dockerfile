@@ -28,15 +28,20 @@ COPY . .
 # Set working directory to Django project
 WORKDIR /app/PostXpress
 
-# Collect static files (doesn't need database)
+# Set a temporary SECRET_KEY for build time (will be overridden at runtime)
+# This allows collectstatic to run without errors
+ENV SECRET_KEY=django-insecure-build-time-fallback-key-do-not-use-in-production
+
+# Collect static files (uses fallback SECRET_KEY during build)
 RUN python manage.py collectstatic --noinput
 
 # Expose the port
 EXPOSE 10000
 
 # Start the application with proper error handling
-# Using shell grouping to ensure gunicorn starts regardless of migration status
-CMD sh -c 'python manage.py makemigrations --noinput || echo "makemigrations failed, continuing..." ; \
+# Note: At runtime, the actual SECRET_KEY from Render will be used
+CMD sh -c 'echo "Starting PostXpress..." ; \
+           python manage.py makemigrations --noinput || echo "makemigrations failed, continuing..." ; \
            python manage.py migrate --noinput || echo "migrate failed, continuing..." ; \
            echo "Starting gunicorn on port $PORT" ; \
            gunicorn PostXpress.wsgi:application --workers 4 --bind 0.0.0.0:$PORT --access-logfile - --error-logfile -'
