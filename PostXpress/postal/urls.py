@@ -9,6 +9,14 @@ from .views import (
     test_map_view
 )
 
+# Add to existing imports
+from .api_views import (
+    FarmerParcelListCreateView,
+    FarmerParcelDetailView,
+    FarmerTrackParcelView,
+    LogisticsDashboardView
+)
+
 from . import views 
 
 # Updated urlpatterns
@@ -53,5 +61,11 @@ urlpatterns = [
     # Django's built-in authentication system URLs
     path('accounts/', include('django.contrib.auth.urls')),
     
-    path('map-test/', test_map_view, name='map_test'),    
+    path('map-test/', test_map_view, name='map_test'),
+
+    # New integration endpoints for FarmFuzion
+    path('api/farmer/parcels/', FarmerParcelListCreateView.as_view(), name='farmer-parcels'),
+    path('api/farmer/parcels/<str:tracking_number>/', FarmerParcelDetailView.as_view(), name='farmer-parcel-detail'),
+    path('api/farmer/track/<str:tracking_number>/', FarmerTrackParcelView.as_view(), name='farmer-track'),
+    path('api/farmer/dashboard/', LogisticsDashboardView.as_view(), name='logistics-dashboard'),
 ]

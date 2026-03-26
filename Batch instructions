@@ -533,6 +533,37 @@ git commit -m "Increase phone number field lengths to 20 characters"
 git push origin master
 ----------------------------------------------------------------------------------------------------------
 
+
 ----------------------------------------------------------------------------------------------------------
 pip install -r ..\requirements.txt
+----------------------------------------------------------------------------------------------------------
+
+
+----------------------------------------------------------------------------------------------------------
+# Delete all migration files in the postal app
+Get-ChildItem -Path .\PostXpress\postal\migrations\*.py -Exclude __init__.py | Remove-Item -Force
+
+# Delete any pycache files
+Remove-Item -Path .\PostXpress\postal\migrations\__pycache__ -Recurse -Force -ErrorAction SilentlyContinue
+----------------------------------------------------------------------------------------------------------
+
+
+
+----------------------------------------------------------------------------------------------------------
+# If using SQLite, delete the database file
+Remove-Item db.sqlite3 -Force -ErrorAction SilentlyContinue
+
+# Then apply migrations
+python manage.py migrate
+
+# Check if migrations applied correctly
+python manage.py showmigrations
+
+# Run the development server to test
+python manage.py runserver
+----------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------
+python manage.py makemigrations
+python manage.py migrate
 ----------------------------------------------------------------------------------------------------------
